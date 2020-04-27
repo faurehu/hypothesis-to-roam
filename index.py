@@ -2,8 +2,6 @@ import re
 import requests
 import sys
 
-# Caveat: this removes all of the breaklines and content in square brackets within a highlight
-
 try:
     url = sys.argv[1]
     token = sys.argv[2]
