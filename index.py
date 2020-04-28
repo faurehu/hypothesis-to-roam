@@ -2,18 +2,6 @@ import re
 import requests
 import sys
 
-try:
-    url = sys.argv[1]
-    token = sys.argv[2]
-except IndexError as e:
-    print("Missing arguments")
-    sys.exit()
-
-try:
-    useBlockquote = sys.argv[3]
-except IndexError as e:
-    useBlockquote = False
-
 def getStart(row):
     selectors = row['target'][0]['selector']
     selector = next(x for x in selectors if x["type"] == "TextPositionSelector")
@@ -22,6 +10,25 @@ def getStart(row):
 def getQuote(row):
     selectors = row['target'][0]['selector']
     return next(x for x in selectors if x["type"] == "TextQuoteSelector")["exact"]
+
+try:
+    url = sys.argv[1]
+except IndexError as e:
+    print("Missing url")
+    sys.exit()
+
+try:
+    f = open("secret.txt", "r")
+except FileNotFoundError as e:
+    print("File not found. Place 'My Clippings.txt' in the same directory as this script")
+    sys.exit()
+
+try:
+    useBlockquote = sys.argv[2]
+except IndexError as e:
+    useBlockquote = False
+
+token = f.read()
 
 url = "https://hypothes.is/api/search?limit=200&sort=created&order=asc&url={0}".format(url)
 
@@ -46,7 +53,7 @@ if len(data) == 0:
 data = sorted(data, key = getStart)
 
 blockquote = ":hiccup [:blockquote [:a {{:href \"{0}\"}} [:p \"{1}\"]]]\n"
-markdown = "[{1}]({0})\n"
+markdown = "{1} [*]({0})\n"
 
 file = open("output.txt", "w")
 

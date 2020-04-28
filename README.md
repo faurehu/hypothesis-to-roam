@@ -8,7 +8,8 @@ Caveats:
 Use:
 
 * Get your API token from https://hypothes.is/account/developer
+* Create a file `secret.txt` and in a single line paste your API token
 * Get the url of the site you want to get annotations from
-* Call `python3 <API-TOKEN> <url> <optional>`
-    * Insert any third argument for blockquote output
+* Call `python3 <url> <optional>`
+    * Insert any second argument for blockquote output
 * The results will be written to file `output.txt` in the same directory
